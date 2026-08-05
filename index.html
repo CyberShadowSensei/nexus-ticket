@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Ticket Classification & Resolution</title>
+  <!-- Google Fonts: Editorial Monolithic Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="monolithic-container">
+    <!-- Top Editorial Header -->
+    <header class="editorial-header">
+      <div class="brand-block">
+        <span class="system-tag">TERMINAL v2.4 // TICKET INTELLIGENCE</span>
+        <h1 class="brand-title">NEXUS <span>EDITORIAL BULLETIN</span></h1>
+      </div>
+
+      <div class="header-meta">
+        <div class="status-indicator" id="backend-status-badge">
+          <span class="status-dot"></span>
+          <span id="status-text" class="mono-label">PORT 5000: CHECKING</span>
+        </div>
+
+        <div class="provider-control">
+          <span class="mono-label">MODEL ENGINE</span>
+          <select id="provider-select" class="mono-select">
+            <option value="ollama">OLLAMA // GEMMA 2B</option>
+            <option value="groq">GROQ API // LLAMA 3.3</option>
+            <option value="openrouter">OPENROUTER // CLAUDE</option>
+          </select>
+        </div>
+
+        <div class="key-control" id="api-key-group">
+          <span class="mono-label">API KEY</span>
+          <div class="key-input-wrapper">
+            <input type="password" id="api-key-input" class="mono-input" placeholder="KEYS // DISPATCH" />
+            <button type="button" id="toggle-key-btn" class="mono-icon-btn">KEY</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Asymmetric Editorial Dashboard Layout -->
+    <main class="editorial-layout">
+      <!-- Wide Main Section: Clusters & Resolution Output -->
+      <section class="main-content-panel">
+        <header class="section-header">
+          <div class="section-title-group">
+            <span class="mono-label">INDEX // CLUSTERED RESOLUTION FEED</span>
+            <h2>CLASSIFICATION & RESOLUTION MATRIX</h2>
+          </div>
+          <div class="metrics-block" id="metrics-summary">
+            <span id="metric-clusters" class="mono-data">0 GROUPS</span>
+            <span class="grid-sep">/</span>
+            <span id="metric-conf" class="mono-data">0.00% CONFIDENCE</span>
+          </div>
+        </header>
+
+        <!-- Loading State -->
+        <div class="loading-state hidden" id="loading-state">
+          <div class="loading-bar">
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+          </div>
+          <p id="loading-text" class="mono-label">COMPUTING VECTOR SIMILARITY DISTANCES...</p>
+        </div>
+
+        <!-- Empty Feed State -->
+        <div class="empty-state" id="empty-state">
+          <div class="mono-label">NO ACTIVE CLUSTERS PROCESSED</div>
+          <p>LOAD TICKETS FROM THE SIDEBAR PANEL AND DISPATCH "EXECUTE CLUSTERING" TO DISPLAY THE MATRIX.</p>
+        </div>
+
+        <!-- Dynamic Cluster Matrix Container -->
+        <div class="clusters-container hidden" id="clusters-container">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- Skinny Sidebar: Ingestion & Controls -->
+      <aside class="sidebar-panel">
+        <header class="section-header">
+          <span class="mono-label">INPUT // INGESTION QUEUE</span>
+          <h3>TICKET BATCH</h3>
+          <span class="mono-data" id="ticket-count-badge">3 ITEMS</span>
+        </header>
+
+        <!-- Quick Load Samples -->
+        <div class="sidebar-block">
+          <span class="mono-label">PRE-SET SAMPLE INGESTION</span>
+          <div class="preset-list">
+            <button type="button" class="preset-btn" data-ticket="I forgot my password and cannot access my account. Please help reset it.">
+              <span class="preset-tag">AUTH-01</span>
+              <span class="preset-text">Password Reset Query</span>
+            </button>
+            <button type="button" class="preset-btn" data-ticket="I can't log in to the enterprise portal after updating my security credentials.">
+              <span class="preset-tag">AUTH-02</span>
+              <span class="preset-text">Login Failure Issue</span>
+            </button>
+            <button type="button" class="preset-btn" data-ticket="How to see my current leave balance and request annual paid time off?">
+              <span class="preset-tag">HR-01</span>
+              <span class="preset-text">Leave Balance Lookup</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Raw Text Queue Input -->
+        <div class="sidebar-block">
+          <div class="block-header">
+            <span class="mono-label">RAW BATCH DATA</span>
+            <button type="button" class="text-link" id="load-all-samples-btn">LOAD ALL 3</button>
+          </div>
+          <textarea id="tickets-textarea" class="mono-textarea" rows="7" placeholder="Paste tickets (1 per line)..."></textarea>
+          <div class="button-row-secondary">
+            <button type="button" class="mono-btn-secondary" id="clear-input-btn">CLEAR</button>
+            <button type="button" class="mono-btn-secondary" id="add-ticket-btn">ADD LINE</button>
+          </div>
+        </div>
+
+        <!-- Dispatch Controls -->
+        <div class="sidebar-block dispatch-block">
+          <button type="button" class="mono-btn-primary" id="run-clustering-btn">
+            EXECUTE CLUSTERING
+          </button>
+          <button type="button" class="mono-btn-accent" id="generate-solutions-btn">
+            GENERATE RESOLUTIONS
+          </button>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Monolithic Status Log Footer -->
+    <footer class="editorial-footer">
+      <div class="log-block">
+        <span class="mono-label">SYSTEM LOG:</span>
+        <span id="api-log-status" class="mono-log">System Idle. Select model provider and execute batch analysis.</span>
+      </div>
+      <div class="meta-block">
+        <span class="mono-label">FRAMEWORK: EDITORIAL MONOLITH v1.0</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>
