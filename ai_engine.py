@@ -186,19 +186,25 @@ class AIEngine:
                 formatted_tickets.append({"id": t.get("id", f"ticket_{idx+1}"), "text": t.get("text", t.get("description", ""))})
 
         prompt = (
-            "Analyze and cluster the following support tickets into categories like "
-            "'Authentication & Password Issues', 'HR & Leave Management', or other appropriate categories.\n"
+            "You are an AI Ticket Classifier. Group the following support tickets into categories such as "
+            "'Authentication & Password Issues' and 'HR & Leave Management'.\n"
+            "Ensure EVERY ticket ID is assigned to a cluster.\n\n"
             "Return ONLY valid JSON in this exact structure:\n"
             "{\n"
             '  "clusters": [\n'
             '    {\n'
-            '      "category": "Category Name",\n'
-            '      "ticket_ids": ["ticket_1", "ticket_2"],\n'
-            '      "summary": "Brief summary of issues in this cluster"\n'
+            '      "category": "Authentication & Password Issues",\n'
+            '      "ticket_ids": ["t1", "t2"],\n'
+            '      "summary": "Password reset & login failure issues"\n'
+            '    },\n'
+            '    {\n'
+            '      "category": "HR & Leave Management",\n'
+            '      "ticket_ids": ["t3"],\n'
+            '      "summary": "Leave balance query"\n'
             '    }\n'
             '  ]\n'
             "}\n\n"
-            "Tickets:\n" + json.dumps(formatted_tickets, indent=2)
+            "Tickets to classify:\n" + json.dumps(formatted_tickets, indent=2)
         )
 
         llm_resp = self.prompt_llm(prompt, provider=provider, api_key=api_key, model=model)
