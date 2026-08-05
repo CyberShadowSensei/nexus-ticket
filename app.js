@@ -33,11 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const metricConf = document.getElementById('metric-conf');
   const apiLogStatus = document.getElementById('api-log-status');
 
-  // --- Pre-populated Sample Data ---
+  // --- Pre-populated Sample Data Across 5 Enterprise Verticals ---
   const PREPOPULATED_TICKETS = [
     "I forgot my password and cannot access my account. Please help reset it.",
     "I can't log in to the enterprise portal after updating my security credentials.",
-    "How to see my current leave balance and request annual paid time off?"
+    "How to see my current leave balance and request annual paid time off?",
+    "My developer laptop screen flickering and external monitor docking station not working.",
+    "My travel expense reimbursement for last week client meeting has not been processed.",
+    "Wireguard enterprise VPN connection dropping frequently when accessing internal bastion servers."
   ];
 
   // Global State
@@ -302,33 +305,63 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast(`AI Solutions generated successfully!`);
   }
 
-  // --- Intelligent Mock Engines ---
+  // --- Intelligent Multi-Domain Engine ---
   function mockClusterEngine(ticketList) {
     const authCluster = {
       id: 'cluster-auth',
-      name: 'Group 1: Auth & Password Management',
+      name: 'Group 1: Authentication & Identity Management',
       tag: 'auth',
       tagLabel: 'Auth & Access',
-      confidence: 96.4,
+      confidence: 97.4,
       tickets: [],
       solution: null
     };
 
     const hrCluster = {
       id: 'cluster-hr',
-      name: 'Group 2: HR & Employee Support',
+      name: 'Group 2: HR & Absence Management',
       tag: 'hr',
       tagLabel: 'HR & Leave',
-      confidence: 94.8,
+      confidence: 96.2,
+      tickets: [],
+      solution: null
+    };
+
+    const hwCluster = {
+      id: 'cluster-hw',
+      name: 'Group 3: Hardware Provisioning & Assets',
+      tag: 'hw',
+      tagLabel: 'Hardware & Asset',
+      confidence: 95.8,
+      tickets: [],
+      solution: null
+    };
+
+    const finCluster = {
+      id: 'cluster-fin',
+      name: 'Group 4: Finance, Payroll & Expenses',
+      tag: 'fin',
+      tagLabel: 'Finance & Expense',
+      confidence: 94.6,
+      tickets: [],
+      solution: null
+    };
+
+    const netCluster = {
+      id: 'cluster-net',
+      name: 'Group 5: Network Infrastructure & VPN',
+      tag: 'net',
+      tagLabel: 'Network & VPN',
+      confidence: 96.9,
       tickets: [],
       solution: null
     };
 
     const generalCluster = {
       id: 'cluster-general',
-      name: 'Group 3: General IT & Service Requests',
+      name: 'Group 6: General Enterprise Requests',
       tag: 'general',
-      tagLabel: 'General IT',
+      tagLabel: 'General Request',
       confidence: 91.2,
       tickets: [],
       solution: null
@@ -337,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ticketList.forEach((text, index) => {
       const lower = text.toLowerCase();
       const ticketObj = {
-        id: `TCK-${101 + index}`,
+        id: `TCK-${1001 + index}`,
         content: text
       };
 
@@ -345,6 +378,12 @@ document.addEventListener('DOMContentLoaded', () => {
         authCluster.tickets.push(ticketObj);
       } else if (lower.includes('leave') || lower.includes('balance') || lower.includes('time off') || lower.includes('vacation') || lower.includes('hr')) {
         hrCluster.tickets.push(ticketObj);
+      } else if (lower.includes('laptop') || lower.includes('dock') || lower.includes('monitor') || lower.includes('hardware') || lower.includes('screen')) {
+        hwCluster.tickets.push(ticketObj);
+      } else if (lower.includes('expense') || lower.includes('reimbursement') || lower.includes('payroll') || lower.includes('salary') || lower.includes('claim')) {
+        finCluster.tickets.push(ticketObj);
+      } else if (lower.includes('vpn') || lower.includes('wireguard') || lower.includes('network') || lower.includes('ssh') || lower.includes('bastion')) {
+        netCluster.tickets.push(ticketObj);
       } else {
         generalCluster.tickets.push(ticketObj);
       }
@@ -353,6 +392,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const results = [];
     if (authCluster.tickets.length > 0) results.push(authCluster);
     if (hrCluster.tickets.length > 0) results.push(hrCluster);
+    if (hwCluster.tickets.length > 0) results.push(hwCluster);
+    if (finCluster.tickets.length > 0) results.push(finCluster);
+    if (netCluster.tickets.length > 0) results.push(netCluster);
     if (generalCluster.tickets.length > 0) results.push(generalCluster);
 
     return results;
@@ -361,22 +403,34 @@ document.addEventListener('DOMContentLoaded', () => {
   function attachMockSolutions(clusters) {
     clusters.forEach(c => {
       if (c.tag === 'auth') {
-        c.solution = `**Automated Resolution Draft (Authentication & Access)**
-1. Direct user to Self-Service Password Reset Portal: \`https://sso.company.internal/reset\`
+        c.solution = `**Automated Resolution Draft (Authentication & Identity)**
+1. Direct user to Self-Service Password Reset Gateway: \`https://sso.company.internal/reset\`
 2. Verify multi-factor authentication (MFA) device status in Okta/Active Directory.
-3. If credentials were changed recently, ensure local browser cache and SSO tokens are cleared.
-4. Auto-Response Template: "Hello, we noticed login/password issues. Please click here to reset your credentials instantly."`;
+3. If credentials were updated recently, clear browser session cache and SSO token cache.`;
       } else if (c.tag === 'hr') {
-        c.solution = `**Automated Resolution Draft (HR & Paid Time Off)**
-1. Direct user to Workday / HR Portal: \`https://hr.company.internal/leave-balance\`
-2. Path to view balance: *Employee Dashboard -> Benefits -> Paid Time Off Balance*.
-3. Submitting Leave Request: Select manager approval workflow and attach requested dates.
-4. Auto-Response Template: "Hi there! You can check your remaining leave balance directly on Workday under the Benefits tab."`;
+        c.solution = `**Automated Resolution Draft (HR & Absence Management)**
+1. Direct user to Workday HR Portal: \`https://hr.company.internal/leave-balance\`
+2. Path to view balance: *Employee Services -> Attendance & PTO Ledger*.
+3. Select 'Create Request', assign reporting manager for automated approval routing.`;
+      } else if (c.tag === 'hw') {
+        c.solution = `**Automated Resolution Draft (Hardware Provisioning & Assets)**
+1. Access Asset Management Portal: \`https://assets.company.internal/order\`
+2. Select 'Hardware Replacement' and attach asset tag ID for flickering display / docking station.
+3. Peripheral dispatch ships within 24 hours to designated office hub.`;
+      } else if (c.tag === 'fin') {
+        c.solution = `**Automated Resolution Draft (Finance & Expense Reimbursement)**
+1. Open Financial Operations Portal: \`https://finance.company.internal/payroll\`
+2. Navigate to 'Document Vault' -> 'Expense Reports' to track claim audit status.
+3. Reimbursement disbursements complete every Friday following manager sign-off.`;
+      } else if (c.tag === 'net') {
+        c.solution = `**Automated Resolution Draft (Network Infrastructure & VPN)**
+1. Launch Wireguard / Zero-Trust Client on workstation.
+2. Select regional gateway \`vpn.company.internal\` and flush DNS cache (\`ipconfig /flushdns\` or \`sudo killall -HUP mDNSResponder\`).
+3. Re-authenticate Bastion SSH session via \`ssh-vault\` CLI.`;
       } else {
-        c.solution = `**Automated Resolution Draft (General IT Ticket)**
-1. Triage ticket severity and assign to Tier-1 Help Desk support queue.
-2. Send acknowledgment email with tracking ticket ID to the submitter.
-3. Auto-Response Template: "Thank you for reaching out. An IT specialist is reviewing your request."`;
+        c.solution = `**Automated Resolution Draft (General Enterprise Ticket)**
+1. Triage ticket severity and route to Tier-1 Service Desk queue.
+2. Send acknowledgment status log to submitter.`;
       }
     });
   }
