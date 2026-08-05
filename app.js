@@ -478,18 +478,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    toast.innerHTML = `<i data-lucide="check-circle" style="color: var(--accent-cyan);"></i> ${message}`;
-    document.body.appendChild(toast);
-    if (window.lucide) window.lucide.createIcons();
-
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateY(20px)';
-      toast.style.transition = 'all 0.3s ease';
-      setTimeout(() => toast.remove(), 300);
-    }, 2500);
+    // Feature completely removed as requested
+    return;
   }
 
   function escapeHtml(str) {
