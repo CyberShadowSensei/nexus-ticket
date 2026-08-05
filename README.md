@@ -1,5 +1,14 @@
 # AI Support Ticket Classification & Resolution System
 
+[![Demo Video](https://img.shields.io/badge/Product_Demo-Watch_Video-red?style=for-the-badge&logo=google-drive)](https://drive.google.com/file/d/1lxYbRFKQBP1ssbqzCHovJYh5RRC1lqiY/view?usp=sharing)
+
+## Product Pitch & Demo Video
+
+Watch the complete demonstration video showcasing the enterprise multi-domain ticket classification, clustering, and AI resolution pipeline:
+[Product Demo Video (Google Drive)](https://drive.google.com/file/d/1lxYbRFKQBP1ssbqzCHovJYh5RRC1lqiY/view?usp=sharing)
+
+---
+
 ## Overview & Architecture
 
 The **NexusAI Ticket Studio** is an autonomous support ticket classification, clustering, and RAG resolution system. It processes incoming unstructured support requests, aggregates them into semantic clusters, and produces step-by-step resolution drafts.
